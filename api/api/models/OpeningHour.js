@@ -13,8 +13,8 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
     dayOfWeek: {type: 'number', required: true},
-    openTime: {type: 'ref', required: true, columnType: 'time'},
-    closeTime: {type: 'ref', required: true, columnType: 'time'},
+    openTime: {type: 'ref', required: true, columnType: 'time(0)'},
+    closeTime: {type: 'ref', required: true, columnType: 'time(0)'},
 
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
