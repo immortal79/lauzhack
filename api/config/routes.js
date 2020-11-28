@@ -22,6 +22,7 @@ module.exports.routes = {
   'GET /business/list': {action: 'business/list'},
   'POST /openinghours/create': {action: 'openinghours/create'},
   'GET /openinghours/list': {action: 'openinghours/list'},
+  'POST /business/register': {action: 'business/register'},
 
 
   /***************************************************************************
