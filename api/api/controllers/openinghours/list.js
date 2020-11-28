@@ -9,7 +9,7 @@ module.exports = {
   inputs: {
     business: {
       description: 'id of the business',
-      type: 'string',
+      type: 'number',
       required: false
     },
   },

@@ -31,9 +31,7 @@ module.exports = {
   fn: async function (inputs, exits) {
     await OpeningHour.destroy({id: inputs.openingHour});
 
-    // All done.
     return exits.success();
-
   }
 
 
