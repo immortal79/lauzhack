@@ -7,7 +7,9 @@ import {Image, Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import clock from "../clock-icon-white-1.jpg"
 import plus from "../black-plus-icon-24.jpg"
+import cross from "../6934495_preview.png"
 import API from "../API";
+import {Link} from "react-router-dom";
 
 function Disponibilities(){
     const [time1,setTime1] = useState("12:00")
@@ -61,6 +63,7 @@ function Disponibilities(){
                             <Form.Label>Closing hour</Form.Label>
                             <Form.Control type={"text"} readOnly value={data.closeTime}/>
                         </Form.Group>
+                        <Image src={cross} width={25} height={25} onClick={()=>{deleteRow(data.id)}} style={{marginTop:"2em"}}/>
                     </Form.Row>
                 })}
                 <Form.Row style={{width:"50%"}}>
@@ -128,6 +131,11 @@ function Disponibilities(){
                     </Modal.Footer>
                 </Modal>
             </>
+            <Link to={"/bookings"}>
+                <Button>
+                    Bookings
+                </Button>
+            </Link>
         </Container>
     );
     function addRow(){
@@ -142,6 +150,18 @@ function Disponibilities(){
                 })
         })
 
+    }
+    function deleteRow(id){
+        API.post("openinghours/delete",{openingHour:id}).then(()=>{
+            API.get('openinghours/list')
+                .then(res=>{
+                    console.log(res.data);
+                    setUserData(res.data.data)
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+        })
     }
     }
 

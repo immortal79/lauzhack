@@ -30,7 +30,7 @@ function Signup(){
         const zip = target.zip.value;
         const cust = target.cust.value;
         const time = target.time.value;
-        console.log(email,pwd,pwd2,bname,oname,address,cat, city, zip)
+        console.log(email,pwd,pwd2,bname,oname,address,cat, city, zip, cust,time)
         if(email.length>0 && pwd>0 && bname.length>0 && oname.length>0 && address.length>0 && city.length>0 && zip.length>0 && cust.length>0 && time.length>0){
             if(pwd===pwd2){
                 API.post("/business/register",{email:email,password:pwd,ownerName:oname,name:bname,address:address,postalCode:zip,
