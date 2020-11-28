@@ -25,6 +25,9 @@ module.exports = {
     client: {
       model: 'Client'
     },
+    business: {
+      model: 'Business'
+    },
   },
 
 };
