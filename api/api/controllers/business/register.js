@@ -46,6 +46,11 @@ module.exports = {
       type: 'number',
       required: true
     },
+    maxClient: {
+      description: 'Maximum clients allowed in the business',
+      type: 'number',
+      required: true
+    },
     category: {
       description: 'Category activity of the business',
       type: 'number',
@@ -72,10 +77,11 @@ module.exports = {
       email: inputs.email,
       password: hash,
       ownerName: inputs.ownerName,
-      name: name,
+      name: inputs.name,
       address: inputs.address,
       postalCode: inputs.postalCode,
       averageTimeSpent: inputs.averageTimeSpent,
+      maxClient: inputs.maxClient,
     })
       .intercept('E_UNIQUE', () => {
         return new Error('email.already_exists');
@@ -83,6 +89,7 @@ module.exports = {
       .fetch();
 
     //TODO : email verification
+    this.req.session.businessId = business.id;
 
     return exits.success(business);
 
