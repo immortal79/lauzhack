@@ -17,6 +17,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
-
+  'openinghours/create': 'isLoggedIn',
+  'openinghours/delete': 'isLoggedIn',
+  '*': true,
 };

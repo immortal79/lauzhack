@@ -46,7 +46,7 @@ module.exports = {
       dayOfWeek: inputs.dayOfWeek,
       openTime: inputs.openTime,
       closeTime: inputs.closeTime,
-      business: inputs.business
+      business: this.req.session.businessId
     }).fetch();
 
     return exits.success(result);

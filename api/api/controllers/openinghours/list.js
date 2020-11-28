@@ -10,7 +10,7 @@ module.exports = {
     business: {
       description: 'id of the business',
       type: 'string',
-      required: true
+      required: false
     },
   },
 
@@ -28,8 +28,12 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
+    let businessId = inputs.business;
+    if(!businessId) {
+      businessId = this.req.session.businessId;
+    }
     let result = await OpeningHour.find({
-      where: {business: inputs.business},
+      where: {business: businessId},
     });
 
     return exits.success(result);

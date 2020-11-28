@@ -31,7 +31,7 @@ module.exports = {
       where: {name: {contains: inputs.search}},
       limit: 15
     });
-
+    
     return exits.success(result);
   }
 
