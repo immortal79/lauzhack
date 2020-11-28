@@ -7,7 +7,6 @@ import {Image, Modal} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import clock from "../clock-icon-white-1.jpg"
 import plus from "../black-plus-icon-24.jpg"
-import axios from "axios"
 import API from "../API";
 
 function Disponibilities(){
@@ -17,10 +16,8 @@ function Disponibilities(){
     const [show2, setShow2] = useState(false);
     const [day,setDay] = useState(0)
     const [userData,setUserData]=useState([])
-    const [index, setI] = useState(0)
     useEffect(()=>{
-        //TODO put correct id
-        API.get('openinghours/list?business=1')
+        API.get('openinghours/list')
             .then(res=>{
                 console.log(res.data);
                 setUserData(res.data.data)
@@ -135,8 +132,7 @@ function Disponibilities(){
     );
     function addRow(){
         API.post("openinghours/create",{dayOfWeek:day,openTime:time1,closeTime:time2,business:1}).then(()=>{
-            //TODO put correct id
-            API.get('openinghours/list?business=1')
+            API.get('openinghours/list')
                 .then(res=>{
                     console.log(res.data);
                     setUserData(res.data.data)
