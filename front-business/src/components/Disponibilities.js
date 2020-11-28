@@ -15,12 +15,14 @@ function Disponibilities(){
     const [time2,setTime2] = useState("12:00")
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
+    const [day,setDay] = useState(0)
     const [userData,setUserData]=useState([])
     const [index, setI] = useState(0)
     useEffect(()=>{
-        API.get('business/list?search=test')
+        //TODO put correct id
+        API.get('openinghours/list?business=1')
             .then(res=>{
-                console.log(res.data.data);
+                console.log(res.data);
                 setUserData(res.data.data)
             })
             .catch(err=>{
@@ -31,49 +33,51 @@ function Disponibilities(){
     const handleShow = () => setShow(true);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+    function onChangeDay(ev) {
+        setDay(ev.target.value)
+    }
 
     return(
         <Container style={{ }}>
             <h1 style={{textAlign:"center",marginBottom:"2em"}}>ShopSafe</h1>
-            <Form>
+            <Form style={{position:"relative",left:"25%"}}>
 
                 {userData.map((data,id)=>{
                     return <Form.Row style={{width:"50%"}}>
                         <Form.Group as={Col} controlId="day" >
                             <Form.Label>Day</Form.Label>
-                            <Form.Control as="select" custom={true} value={data.dayOfWeek}>
-                                <option>Monday</option>
-                                <option>Tuesday</option>
-                                <option>Wednesday</option>
-                                <option>Thursday</option>
-                                <option>Friday</option>
-                                <option>Saturday</option>
-                                <option>Sunday</option>
+                            <Form.Control as="select" custom={true} value={data.dayOfWeek} readOnly >
+                                <option value={0}>Monday</option>
+                                <option value={1}>Tuesday</option>
+                                <option value={2}>Wednesday</option>
+                                <option value={3}> Thursday</option>
+                                <option value={4}>Friday</option>
+                                <option value={5}>Saturday</option>
+                                <option value={6}>Sunday</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group as={Col} controlId="hour1">
                             <Form.Label>Opening hour</Form.Label>
                             <Form.Control type={"text"} readOnly value={data.openTime}/>
-                            <Image src={clock} width={25} onClick={()=>{handleShow()}}/>
                         </Form.Group>
                         <Form.Group as={Col} controlId="hour2" >
                             <Form.Label>Closing hour</Form.Label>
                             <Form.Control type={"text"} readOnly value={data.closeTime}/>
-                            <Image src={clock} width={25} onClick={()=>{handleShow2()}}/>
                         </Form.Group>
                     </Form.Row>
                 })}
                 <Form.Row style={{width:"50%"}}>
                     <Form.Group as={Col} controlId="day" >
                         <Form.Label>Day</Form.Label>
-                        <Form.Control as="select" custom={true} >
-                            <option>Monday</option>
-                            <option>Tuesday</option>
-                            <option>Wednesday</option>
-                            <option>Thursday</option>
-                            <option>Friday</option>
-                            <option>Saturday</option>
-                            <option>Sunday</option>
+                        {/* eslint-disable-next-line no-restricted-globals */}
+                        <Form.Control as="select" custom={true} onChange={()=>onChangeDay(event)}>
+                            <option value={0}>Monday</option>
+                            <option value={1}>Tuesday</option>
+                            <option value={2}>Wednesday</option>
+                            <option value={3}> Thursday</option>
+                            <option value={4}>Friday</option>
+                            <option value={5}>Saturday</option>
+                            <option value={6}>Sunday</option>
                         </Form.Control>
                     </Form.Group>
                     <Form.Group as={Col} controlId="hour1">
@@ -88,7 +92,6 @@ function Disponibilities(){
                     </Form.Group>
                     <Image src={plus} width={35} height={35} onClick={()=>{addRow()}} rounded={true} style={{marginTop:"2em"}}/>
                 </Form.Row>
-
             </Form>
             <>
                 <Modal show={show} onHide={handleClose}>
@@ -131,7 +134,18 @@ function Disponibilities(){
         </Container>
     );
     function addRow(){
-        setUserData()
+        API.post("openinghours/create",{dayOfWeek:day,openTime:time1,closeTime:time2,business:1}).then(()=>{
+            //TODO put correct id
+            API.get('openinghours/list?business=1')
+                .then(res=>{
+                    console.log(res.data);
+                    setUserData(res.data.data)
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+        })
+
     }
     }
 

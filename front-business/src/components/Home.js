@@ -30,9 +30,12 @@ function Home(){
             </Link>
             <br/>
             <br/>
-            <Button>
-                Slots
-            </Button>
+            <Link to={"/bookings"}>
+                <Button>
+                    Bookings
+                </Button>
+            </Link>
+
         </Container>
     );
 }
