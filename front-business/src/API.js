@@ -2,6 +2,7 @@ import Axios from 'axios'
 
 const API = Axios.create({
     baseURL: 'http://localhost:1337/',
+    withCredentials: true,
     // Convert date from string to date object
     // Inspiration : https://mariusschulz.com/blog/deserializing-json-strings-as-javascript-date-objects
     transformResponse: [(data) => {

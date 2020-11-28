@@ -21,6 +21,7 @@ module.exports.routes = {
 
   'GET /business/list': {action: 'business/list'},
   'POST /openinghours/create': {action: 'openinghours/create'},
+  'POST /openinghours/delete': {action: 'openinghours/delete'},
   'GET /openinghours/list': {action: 'openinghours/list'},
   'POST /business/register': {action: 'business/register'},
   'POST /business/login': {action: 'business/login'},
