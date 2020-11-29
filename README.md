@@ -1,5 +1,10 @@
 # ShopSafe
 
+## Try ShopSafe
+Check it out [here](https://shopsafe-app.ch/)  (try searching 'coop')
+
+If you want to try the business side -> [here](https://business.shopsafe-app.ch/) 
+
 ## Video presentation
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/Aubhwls751s/0.jpg)](https://www.youtube.com/watch?v=Aubhwls751s)
 
