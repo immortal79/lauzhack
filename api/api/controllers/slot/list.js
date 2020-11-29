@@ -105,31 +105,32 @@ module.exports = {
           let currentSlotTime = openTime.clone().add(i * 5, 'minute');
           let start = currentSlotTime;
           let end = currentSlotTime.clone().add(averageTimeSpent, 'minute');
-
+          let slotLeft = maxClients;
           let currentSlot = {
             reservationStart: start.format('HH:mm'),
             reservationEnd: end.format('HH:mm'),
-            slotLeft: maxClients
           };
 
-          let takenPeriods = [];
-          console.log('-----');
+          let available = true;
           takenSlots.forEach(slot => {
             for (let j = 0; j < averageTimeSpent / 5; j++) {
               let startDate = moment(slot.date).add(j * 5, 'minute');
 
-              if (start.hour() === startDate.hour() && start.minutes() === startDate.minutes()) {
-                currentSlot.slotLeft -= 1;
+              if ((start.hour() === startDate.hour() && start.minutes() === startDate.minutes()) || (end.hour() === startDate.hour() && end.minutes() === startDate.minutes()) ) {
+                slotLeft -= 1;
+              }
+              if (slotLeft <= 0) {
+                available = false;
               }
             }
           });
-          output.push(currentSlot);
+          if (available) {
+            output.push(currentSlot);
+          }
         }
-        console.log(totalSlots);
       });
     }
     return exits.success(output);
-
   }
 
 

@@ -39,6 +39,7 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
+    //TODO: check there are still slots left before insert
     let client = await Client.findOrCreate({email: inputs.email}, {email: inputs.email});
     let reservation = await ReservationSlot.create({
       business: inputs.business,
