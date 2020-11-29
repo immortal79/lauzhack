@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
 
 
@@ -41,9 +43,11 @@ module.exports = {
   fn: async function (inputs, exits) {
     //TODO: check there are still slots left before insert
     let client = await Client.findOrCreate({email: inputs.email}, {email: inputs.email});
+    let parsedDate = moment(inputs.date, 'YYYY-MM-DD HH:mm');
+
     let reservation = await ReservationSlot.create({
       business: inputs.business,
-      date: new Date(Date.parse(inputs.date)).toISOString().substring(0, 10),
+      date: parsedDate.format('yyyy-MM-DD HH:mm'),
       client: client.id,
     }).fetch();
 
