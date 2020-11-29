@@ -1,7 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React, {useState, Fragment} from "react";
 import Form from "react-bootstrap/Form"
-import { Col, Button, Alert } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
+import {Col, Button, Alert} from "react-bootstrap";
+import {Redirect} from "react-router-dom";
 
 import API from "../API";
 
@@ -13,7 +13,6 @@ function Signup() {
     const [fieldsFail, setFieldsFail] = useState(false);
     const [redirect, setRedirect] = useState(false)
     const [timeFail, setTimeFail] = useState(false)
-
 
 
     function onFormSubmit(event) {
@@ -30,13 +29,20 @@ function Signup() {
         const zip = target.zip.value;
         const cust = target.cust.value;
         const time = target.time.value;
-        console.log(email, pwd, pwd2, bname, oname, address, cat, city, zip, cust, time)
-        if(Number(time)%5===0) {
-            if (email.length > 0 && pwd > 0 && bname.length > 0 && oname.length > 0 && address.length > 0 && city.length > 0 && zip.length > 0 && cust.length > 0 && time.length > 0) {
+
+        if (Number(time) % 5 === 0) {
+            if (email.length > 0 && pwd.length > 0 && bname.length > 0 && oname.length > 0 && address.length > 0 && city.length > 0 && zip.length > 0 && cust.length > 0 && time.length > 0) {
                 if (pwd === pwd2) {
                     API.post("/business/register", {
-                        email: email, password: pwd, ownerName: oname, name: bname, address: address, postalCode: zip,
-                        maxClient: cust, averageTimeSpent: time, category: cat
+                        email: email,
+                        password: pwd,
+                        ownerName: oname,
+                        name: bname,
+                        address: address,
+                        postalCode: zip,
+                        maxClient: cust,
+                        averageTimeSpent: time,
+                        category: cat
                     }).then((res) => {
                         console.log(res.data)
                         setRedirect(true)
@@ -51,11 +57,9 @@ function Signup() {
             } else {
                 setFieldsFail(true)
             }
-        }
-        else{
+        } else {
             setTimeFail(true)
         }
-
     }
 
 
@@ -65,41 +69,41 @@ function Signup() {
                 <h3 className="my-3 text-center">Help your customers and yourself by avoiding huge waiting lines!</h3>
 
                 <Form onSubmit={(event) => onFormSubmit(event)}>
-                    {emailFail ? <Alert variant={"danger"} >
+                    {emailFail ? <Alert variant={"danger"}>
                         Email already in use !
                     </Alert> : null}
-                    {fieldsFail ? <Alert variant={"danger"} >
+                    {fieldsFail ? <Alert variant={"danger"}>
                         All fields are required !
                     </Alert> : null}
-                    <Form.Group controlId="formGridEmail" >
+                    <Form.Group controlId="formGridEmail">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Your email" name={"email"} />
+                        <Form.Control type="email" placeholder="Your email" name={"email"}/>
                     </Form.Group>
-                    {!pwd ? <Alert variant={"danger"} >
+                    {!pwd ? <Alert variant={"danger"}>
                         Passwords not matching!
                     </Alert> : null}
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Your new password" name={"pwd1"} />
+                            <Form.Control type="password" placeholder="Your new password" name={"pwd1"}/>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridPassword2">
                             <Form.Label>Password confirmation</Form.Label>
-                            <Form.Control type="password" placeholder="Your new password, again" name={"pwd2"} />
+                            <Form.Control type="password" placeholder="Your new password, again" name={"pwd2"}/>
                         </Form.Group>
                     </Form.Row>
                     <Form.Group controlId="formBusinessName">
                         <Form.Label>Business name</Form.Label>
-                        <Form.Control placeholder="Your business name" name={"bname"} />
+                        <Form.Control placeholder="Your business name" name={"bname"}/>
                     </Form.Group>
                     <Form.Group controlId="formOwnerName">
                         <Form.Label>Owner name</Form.Label>
-                        <Form.Control placeholder="Your name" name={"oname"} />
+                        <Form.Control placeholder="Your name" name={"oname"}/>
                     </Form.Group>
                     <Form.Group controlId="formGridAddress1">
                         <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" name={"address"} />
+                        <Form.Control placeholder="1234 Main St" name={"address"}/>
                     </Form.Group>
                     <Form.Group controlId="formCategory">
                         <Form.Label>Business category</Form.Label>
@@ -114,23 +118,23 @@ function Signup() {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridCity">
                             <Form.Label>City</Form.Label>
-                            <Form.Control placeholder={"Your city"} name={"city"} />
+                            <Form.Control placeholder={"Your city"} name={"city"}/>
                         </Form.Group>
                         <Form.Group as={Col} controlId="formGridZip">
                             <Form.Label>Zip</Form.Label>
-                            <Form.Control placeholder={"Your zip code"} name={"zip"} />
+                            <Form.Control placeholder={"Your zip code"} name={"zip"}/>
                         </Form.Group>
                     </Form.Row>
                     <Form.Group controlId="formGridQty">
                         <Form.Label>Number of customers allowed at the same time inside your shop</Form.Label>
-                        <Form.Control placeholder={"Number of customers"} name={"cust"} type={"number"} />
+                        <Form.Control placeholder={"Number of customers"} name={"cust"} type={"number"}/>
                     </Form.Group>
-                    {timeFail ? <Alert variant={"danger"} >
+                    {timeFail ? <Alert variant={"danger"}>
                         the time must be in increments of 5mn
                     </Alert> : null}
                     <Form.Group controlId="formGridQty">
                         <Form.Label>Average minutes spent inside your shop by customer</Form.Label>
-                        <Form.Control placeholder={"Average minutes spent"} name={"time"} type={"number"} />
+                        <Form.Control placeholder={"Average minutes spent"} name={"time"} type={"number"}/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit">
@@ -141,7 +145,7 @@ function Signup() {
         );
     } else {
         return (
-            <Redirect to={"/dispo"} />
+            <Redirect to={"/dispo"}/>
         );
     }
 
