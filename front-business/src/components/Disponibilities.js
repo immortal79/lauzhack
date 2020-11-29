@@ -37,13 +37,15 @@ function Disponibilities() {
 
     return (
         <Fragment>
-            <Form style={{ position: "relative", left: "25%" }}>
+            <h3 className="text-center">Availabilities</h3>
+            <p className="mb-4 text-center"><small><Link to="/bookings">Show Bookings</Link></small></p>
 
+            <Form className="mt-4">
                 {userData.map((data, id) => {
-                    return <Form.Row style={{ width: "50%" }}>
+                    return <Form.Row>
                         <Form.Group as={Col} controlId="day" >
                             <Form.Label>Day</Form.Label>
-                            <Form.Control as="select" custom={true} value={data.dayOfWeek} readOnly >
+                            <Form.Control as="select" custom={true} value={data.dayOfWeek} disabled >
                                 <option value={0}>Monday</option>
                                 <option value={1}>Tuesday</option>
                                 <option value={2}>Wednesday</option>
@@ -55,17 +57,19 @@ function Disponibilities() {
                         </Form.Group>
                         <Form.Group as={Col} controlId="hour1">
                             <Form.Label>Opening hour</Form.Label>
-                            <Form.Control type={"text"} readOnly value={data.openTime} />
+                            <Form.Control type={"text"} disabled value={data.openTime} />
                         </Form.Group>
                         <Form.Group as={Col} controlId="hour2" >
                             <Form.Label>Closing hour</Form.Label>
-                            <Form.Control type={"text"} readOnly value={data.closeTime} />
+                            <Form.Control type={"text"} disabled value={data.closeTime} />
                         </Form.Group>
                         <Image src={cross} width={25} height={25} onClick={() => { deleteRow(data.id) }} style={{ marginTop: "2em" }} />
                     </Form.Row>
                 })}
-                <Form.Row style={{ width: "50%" }}>
-                    <Form.Group as={Col} controlId="day" >
+                <hr />
+                <h4 className="mb-3">Add a new availability</h4>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="day">
                         <Form.Label>Day</Form.Label>
                         {/* eslint-disable-next-line no-restricted-globals */}
                         <Form.Control as="select" custom={true} onChange={() => onChangeDay(event)}>
@@ -78,20 +82,18 @@ function Disponibilities() {
                             <option value={6}>Sunday</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="hour1">
+                    <Form.Group as={Col} controlId="hour1" onClick={() => { handleShow() }}>
                         <Form.Label>Opening hour</Form.Label>
-                        <Form.Control type={"text"} readOnly value={time1.toString()} />
-                        <Image src={clock} width={25} onClick={() => { handleShow() }} />
+                        <Form.Control type={"text"} value={time1.toString()} />
                     </Form.Group>
-                    <Form.Group as={Col} controlId="hour2" >
+                    <Form.Group as={Col} controlId="hour2" onClick={() => { handleShow2() }}>
                         <Form.Label>Closing hour</Form.Label>
-                        <Form.Control type={"text"} readOnly value={time2.toString()} />
-                        <Image src={clock} width={25} onClick={() => { handleShow2() }} />
+                        <Form.Control type={"text"} value={time2.toString()} />
                     </Form.Group>
-                    <Image src={plus} width={35} height={35} onClick={() => { addRow() }} rounded={true} style={{ marginTop: "2em" }} />
                 </Form.Row>
+                <Button onClick={() => { addRow() }} className="w-100">Add</Button>
             </Form>
-            <>
+            <Fragment>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Select your hour</Modal.Title>
@@ -128,12 +130,7 @@ function Disponibilities() {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </>
-            <Link to={"/bookings"}>
-                <Button>
-                    Bookings
-                </Button>
-            </Link>
+            </Fragment>
         </Fragment>
     );
     function addRow() {

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import Button from "react-bootstrap/Button";
 import  {
     BrowserRouter as Router,
@@ -31,35 +31,39 @@ function Home() {
     }
 
     return (
-        <Row className="justify-content-md-center text-center">
-            <Form onSubmit={handleSubmit} style={{marginTop:"20%"}}>
-                <Form.Group size="lg" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        autoFocus
-                        type="email"
-                        name={"email"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={password}
-                        name={"pwd"}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Group>
-                <Link to={"/signup"} >Signup</Link>
-                {failed ? <Alert variant={"danger"}>Login infos not correct</Alert> : null}
-                {ok ? <Redirect to={"/dispo"}/> : null}
-                <Button block size="lg" type="submit" disabled={!validateForm()} style={{marginTop:"1em"}}>
-                    Login
-                </Button>
-            </Form>
-        </Row>
+        <Fragment>
+            <h3 className="my-3 text-center">Help your customers and yourself by avoiding huge waiting lines!</h3>
+
+            <Row className="justify-content-center text-center mt-5">
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group size="lg" controlId="email">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            autoFocus
+                            type="email"
+                            name={"email"}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group size="lg" controlId="password">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={password}
+                            name={"pwd"}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
+                    {failed ? <Alert variant={"danger"}>Login infos not correct</Alert> : null}
+                    {ok ? <Redirect to={"/dispo"}/> : null}
+                    <Button block size="lg" type="submit" disabled={!validateForm()} className="mt-4 mb-3">
+                        Login
+                    </Button>
+                    <Link to={"/signup"} >Signup</Link>
+                </Form>
+            </Row>
+        </Fragment>
     );
 }
 export default Home;

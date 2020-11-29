@@ -57,7 +57,7 @@ function Signup() {
     if (!redirect) {
         return (
             <Fragment>
-                <h3 className="mt-3 mb-5">Reserve a time slot in your favorite shop and avoid waiting line!</h3>
+                <h3 className="my-3 text-center">Help your customers and yourself by avoiding huge waiting lines!</h3>
 
                 <Form onSubmit={(event) => onFormSubmit(event)}>
                     {emailFail ? <Alert variant={"danger"} >
