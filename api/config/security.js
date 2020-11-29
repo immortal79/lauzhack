@@ -32,7 +32,7 @@ module.exports.security = {
     allRoutes: true,
     allowCredentials: true,
     allowRequestHeaders: ['authorization', 'user-agent', 'content-type', 'access-control-allow-origin'],
-    allowOrigins: ['http://localhost:3000']
+    allowOrigins: ['http://localhost:3000', 'https://shopsafe-app.ch', 'https://business.shopsafe-app.ch']
   },
 
 
