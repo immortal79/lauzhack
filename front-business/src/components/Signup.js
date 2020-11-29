@@ -12,6 +12,8 @@ function Signup() {
     const [emailFail, setEmailFail] = useState(false);
     const [fieldsFail, setFieldsFail] = useState(false);
     const [redirect, setRedirect] = useState(false)
+    const [timeFail, setTimeFail] = useState(false)
+
 
 
     function onFormSubmit(event) {
@@ -29,26 +31,29 @@ function Signup() {
         const cust = target.cust.value;
         const time = target.time.value;
         console.log(email, pwd, pwd2, bname, oname, address, cat, city, zip, cust, time)
-        if (email.length > 0 && pwd > 0 && bname.length > 0 && oname.length > 0 && address.length > 0 && city.length > 0 && zip.length > 0 && cust.length > 0 && time.length > 0) {
-            if (pwd === pwd2) {
-                API.post("/business/register", {
-                    email: email, password: pwd, ownerName: oname, name: bname, address: address, postalCode: zip,
-                    maxClient: cust, averageTimeSpent: time, category: cat
-                }).then((res) => {
-                    console.log(res.data)
-                    setRedirect(true)
+        if(Number(time)%5===0) {
+            if (email.length > 0 && pwd > 0 && bname.length > 0 && oname.length > 0 && address.length > 0 && city.length > 0 && zip.length > 0 && cust.length > 0 && time.length > 0) {
+                if (pwd === pwd2) {
+                    API.post("/business/register", {
+                        email: email, password: pwd, ownerName: oname, name: bname, address: address, postalCode: zip,
+                        maxClient: cust, averageTimeSpent: time, category: cat
+                    }).then((res) => {
+                        console.log(res.data)
+                        setRedirect(true)
 
-                }).catch((e) => {
-                    console.log(e.response.data.message)
-                    setEmailFail(true);
-                })
-            }
-            else {
-                setPwd(false);
+                    }).catch((e) => {
+                        console.log(e.response.data.message)
+                        setEmailFail(true);
+                    })
+                } else {
+                    setPwd(false);
+                }
+            } else {
+                setFieldsFail(true)
             }
         }
-        else {
-            setFieldsFail(true)
+        else{
+            setTimeFail(true)
         }
 
     }
@@ -120,6 +125,9 @@ function Signup() {
                         <Form.Label>Number of customers allowed at the same time inside your shop</Form.Label>
                         <Form.Control placeholder={"Number of customers"} name={"cust"} type={"number"} />
                     </Form.Group>
+                    {timeFail ? <Alert variant={"danger"} >
+                        the time must be in increments of 5mn
+                    </Alert> : null}
                     <Form.Group controlId="formGridQty">
                         <Form.Label>Average minutes spent inside your shop by customer</Form.Label>
                         <Form.Control placeholder={"Average minutes spent"} name={"time"} type={"number"} />
