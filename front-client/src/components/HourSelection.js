@@ -17,12 +17,23 @@ export default function HourReservation({ shopId, date, value, onChange }) {
 
     // Run on props' change
     useEffect(() => {
-        resetStates();
+        const fetch = async () => {
+            resetStates();
 
-        // TODO Fetch from server
-        setTimeout(() => {
-            setAvailableSlots(['08:00','08:15','08:30','09:30','09:35','10:00','11:35','14:05','14:25','14:40']);
-        }, 250);
+            const formattedDate = date.year + '-' + date.month + '-' + date.day;
+
+            const apiResult = await API.get(
+                'slot/list?filter=available' +
+                '&date=' + formattedDate +
+                '&business=' + shopId
+            );
+            if (apiResult.data.status === 'ok' && apiResult.data.data[0] !== null) {
+                setAvailableSlots(apiResult.data.data);
+            } else {
+                setNofFound(true);
+            }
+        }
+        fetch()
     }, [shopId, date]);
 
     if (!notFound && availableSlots == null) {
@@ -39,8 +50,8 @@ export default function HourReservation({ shopId, date, value, onChange }) {
 
         <div className="frame p-3 mt-3 mb-5">
             {availableSlots.map(slot => (
-                <Button key={slot} className="m-2" variant="outline-primary" onClick={(event) => onChange(slot, event)} active={slot === value}>
-                    {slot}
+                <Button key={slot.reservationStart} className="m-2" variant="outline-primary" onClick={(event) => onChange(slot.reservationStart, event)} active={slot.reservationStart === value}>
+                    {slot.reservationStart}
                 </Button>
             ))}
         </div>
