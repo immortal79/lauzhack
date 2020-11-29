@@ -13,9 +13,13 @@ function Bookings(){
     console.log(selectedDate)
     function changeDate(value){
         setSelectedDate(value)
-        let string =selectedDate.year+"-"+selectedDate.month+"-"+selectedDate.day
-        API.get("slots/list",{date:string,filter:"taken"}).then((res)=>{
+        const date = value
+        let string =date.year+"-"+date.month+"-"+date.day
+        let query = "slot/list?filter=taken&date="+string
+        console.log(query)
+        API.get(query,{}).then((res)=>{
             setDaysBooked(res.data);
+            console.log(res.data)
         })
     }
     return(
