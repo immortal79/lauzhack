@@ -4,8 +4,6 @@ import Col from "react-bootstrap/Col";
 import TimeKeeper from "react-timekeeper";
 import { Image, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import clock from "../clock-icon-white-1.jpg"
-import plus from "../black-plus-icon-24.jpg"
 import cross from "../6934495_preview.png"
 import API from "../API";
 import { Link } from "react-router-dom";

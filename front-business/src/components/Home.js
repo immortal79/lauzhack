@@ -1,13 +1,10 @@
 import React, {Fragment, useState} from "react";
 import Button from "react-bootstrap/Button";
 import  {
-    BrowserRouter as Router,
-    Switch,
     Redirect,
-    Route,
     Link
 } from "react-router-dom";
-import {Alert, Col, Form, Row} from 'react-bootstrap';
+import {Alert, Form, Row} from 'react-bootstrap';
 import API from "../API";
 
 function Home() {
