@@ -1,42 +1,40 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Signup from "./Signup";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
 } from "react-router-dom";
-import Container from "react-bootstrap/Container";
+import { Col, Row } from 'react-bootstrap';
 
-function Home(){
-    return(
-
-        <Container style={{ position: 'absolute', left: '50%', top: '20%',
-            transform: 'translate(-50%, -50%)'}}>
-            <h1 style={{textAlign:"center"}}>ShopSafe</h1>
-            <br></br>
+function Home() {
+    return (
+        <Row className="justify-content-md-center text-center">
+            <Col sm lg={2} className="py-2">
                 <Link to={"/signup"}>
                     <Button>
                         Signup
                     </Button>
                 </Link>
-            <br/>
-            <br/>
+            </Col>
+
+            <Col sm lg={2} className="py-2">
             <Link to={"/dispo"}>
                 <Button>
                     Disponibilities
                 </Button>
             </Link>
-            <br/>
-            <br/>
+            </Col>
+
+            <Col sm lg={2} className="py-2">
             <Link to={"/bookings"}>
                 <Button>
                     Bookings
                 </Button>
             </Link>
-
-        </Container>
+            </Col>
+        </Row>
     );
 }
 export default Home;
