@@ -1,10 +1,10 @@
 module.exports = {
 
 
-  friendlyName: 'List',
+  friendlyName: 'List slot',
 
 
-  description: 'List slot.',
+  description: 'Lists slots, available or taken depending on who tries to see the slots (business or client).',
 
 
   inputs: {
@@ -59,11 +59,11 @@ module.exports = {
     let nextDay = new Date(date);
     nextDay.setHours(nextDay.getHours() + 24);
 
-    if(inputs.filter == "taken"){
+    if (inputs.filter == "taken") {
       let results = await ReservationSlot.find({
         and: [
-          { date: {'>=': date} },
-          { date: {'<': nextDay} },
+          {date: {'>=': date}},
+          {date: {'<': nextDay}},
         ]
       });
 
