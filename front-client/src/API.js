@@ -2,6 +2,7 @@ import Axios from 'axios'
 
 const API = Axios.create({
     baseURL: 'http://localhost:1337/',
+    withCredentials: true,
     // Convert date from string to date object
     // Inspiration : https://mariusschulz.com/blog/deserializing-json-strings-as-javascript-date-objects
     transformResponse: [(data) => {
@@ -17,7 +18,7 @@ const API = Axios.create({
 
 // Shortcut to get data from 'url' with some queries parameters ('params')
 // and use the results in a hook via the 'handler'
-async function get(url, params, handler) {
+async function getAndSet(url, params, handler) {
     try {
         const results = await API.get(url, { params: params })
         handler(results.data)
@@ -36,4 +37,4 @@ async function post(url, data) {
 }
 
 export default API
-export { get, post }
+export { getAndSet, post }

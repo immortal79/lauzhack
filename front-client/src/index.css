@@ -1,0 +1,26 @@
+.form-control, .form-control:focus {
+    border: none;
+    border-radius: .5em;
+}
+.form-control {
+    box-shadow: 0 .8em 4em rgba(0, 0, 0, 0.1);
+}
+.form-control:focus {
+    box-shadow: 0 .8em 4em rgba(0, 0, 0, 0.15);
+}
+
+.list-group {
+    border-radius: .5em;
+    box-shadow: 0 1em 4em rgba(0, 0, 0, 0.07);
+}
+
+.title a, .title a:hover {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.frame {
+    background: white;
+    box-shadow: 0 1em 4em rgba(0, 0, 0, 0.07);
+    border-radius: .5em;
+}
