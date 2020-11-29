@@ -40,13 +40,12 @@ module.exports = {
 
   fn: async function (inputs, exits) {
     let client = await Client.findOrCreate({email: inputs.email}, {email: inputs.email});
-
     let reservation = await ReservationSlot.create({
       business: inputs.business,
       date: new Date(Date.parse(inputs.date)).toISOString().substring(0, 10),
       client: client.id,
     }).fetch();
-    
+
     return exits.success(reservation);
   }
 

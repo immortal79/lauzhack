@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
 
 
@@ -42,34 +44,35 @@ module.exports = {
 
     function addZero(i) {
       if (i < 10) {
-        i = "0" + i;
+        i = '0' + i;
       }
       return i.toString();
     }
 
     let businessId = !inputs.business ? this.req.session.businessId : inputs.business;
 
-    let business = await Business.find({
+    let business = await Business.findOne({
       where: {id: businessId},
     });
 
-    let averageTimeSpent = business[0].averageTimeSpent;
+    let averageTimeSpent = business.averageTimeSpent;
 
     let date = new Date(Date.parse(inputs.date));
     let nextDay = new Date(date);
     nextDay.setHours(nextDay.getHours() + 24);
 
-    if (inputs.filter == "taken") {
-      let results = await ReservationSlot.find({
-        and: [
-          {date: {'>=': date}},
-          {date: {'<': nextDay}},
-        ]
-      });
+    let takenSlots = await ReservationSlot.find({
+      and: [
+        {date: {'>=': date}},
+        {date: {'<': nextDay}},
+        {business: businessId}
+      ]
+    });
 
-      let output = [];
+    let output = [];
+    if (inputs.filter === 'taken') {
 
-      results.forEach(result => {
+      takenSlots.forEach(result => {
         let resultStartDate = new Date(Date.parse(result.date));
         let resultEndDate = new Date(resultStartDate);
         resultEndDate.setMinutes(resultEndDate.getMinutes() + averageTimeSpent);
@@ -79,14 +82,53 @@ module.exports = {
         let endh = addZero(resultEndDate.getHours());
         let endm = addZero(resultEndDate.getMinutes());
 
-        let start = starth + ":" + startm;
-        let end = endh + ":" + endm;
+        let start = starth + ':' + startm;
+        let end = endh + ':' + endm;
 
         output.push({start: start, end: end});
       });
 
-      return exits.success(output);
+    } else {
+      let dayOfWeek = date.getUTCDay() === 0 ? 6 : date.getUTCDay() - 1;
+      let maxClients = business.maxClient;
+      let slotDuration = 5; //Minimum slot size is 5 minutes
+      let openingHours = await OpeningHour.find({
+        where: {business: businessId, dayOfWeek: dayOfWeek},
+      });
+
+      openingHours.forEach(openingHour => {
+        let openTime = moment(openingHour.openTime, 'HH:mm:ss');
+        let closeTime = moment(openingHour.closeTime, 'HH:mm:ss');
+        let minuteMillis = 1000 * 60;
+        let totalSlots = (closeTime - openTime) / minuteMillis / slotDuration;
+        for (let i = 0; i < totalSlots; i++) {
+          let currentSlotTime = openTime.clone().add(i * 5, 'minute');
+          let start = currentSlotTime;
+          let end = currentSlotTime.clone().add(averageTimeSpent, 'minute');
+
+          let currentSlot = {
+            reservationStart: start.format('HH:mm'),
+            reservationEnd: end.format('HH:mm'),
+            slotLeft: maxClients
+          };
+
+          let takenPeriods = [];
+          console.log('-----');
+          takenSlots.forEach(slot => {
+            for (let j = 0; j < averageTimeSpent / 5; j++) {
+              let startDate = moment(slot.date).add(j * 5, 'minute');
+
+              if (start.hour() === startDate.hour() && start.minutes() === startDate.minutes()) {
+                currentSlot.slotLeft -= 1;
+              }
+            }
+          });
+          output.push(currentSlot);
+        }
+        console.log(totalSlots);
+      });
     }
+    return exits.success(output);
 
   }
 
